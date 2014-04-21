@@ -4,34 +4,35 @@ import java.util.Collection;
 
 public class DoesNotHaveErrorsTag extends ConditionalTagSupport {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String category;
+    private String category;
 
-	public String getCategory() {
-		return category;
-	}
+    public String getCategory() {
+	return category;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setCategory(String category) {
+	this.category = category;
+    }
 
-	protected boolean condition() throws JspTagException {
+    protected boolean condition() throws JspTagException {
 
-		@SuppressWarnings("unchecked")
-		Collection<Message> errors = (Collection<Message>) pageContext.getRequest().getAttribute("errors");
+	@SuppressWarnings("unchecked")
+	Collection<Message> errors = (Collection<Message>) pageContext
+		.getRequest().getAttribute("errors");
 
-		if (errors != null) {
-			for (Message message : errors) {
-				if (message.getCategory().equals(this.getCategory())) {
-					return false;
-				}
-			}
-		} else {
-			return false;
+	if (errors != null) {
+	    for (Message message : errors) {
+		if (message.getCategory().equals(this.getCategory())) {
+		    return false;
 		}
-
-		return true;
+	    }
+	} else {
+	    return false;
 	}
+
+	return true;
+    }
 
 }
