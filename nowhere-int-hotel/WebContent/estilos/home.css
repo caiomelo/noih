@@ -1,0 +1,112 @@
+body {
+	/*background: #2fa2e3 url('images/bg.jpg') center 0 no-repeat fixed;
+	background-color: #d9dfe0;*/
+	background: #2fa2e3 url('images/bg-main.png') repeat;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	font: 13px / 1 'Helvetica Neue', Helvetica, Arial, Sans-serif
+}
+
+/* envoltorio central de TODO o conteúdo do site */
+.fullWrapper {
+	margin: 0 auto;
+	width: 100%;
+	text-align: left;
+	padding-bottom: 15px;
+	background-color: #f9f9f9;
+}
+
+.wrapper {
+	margin: 0 auto;
+	width: 850px;
+	text-align: left;
+}
+
+#header {
+	margin-top: 10px;
+	text-align: left;
+	float: left;
+}
+
+#mid {
+	height: 150px;
+	width: 100%;
+	background: #1C708D url('images/bg-hero-tile.png') repeat;
+	text-align: center;
+	padding-top: 25px;
+}
+
+nav#opcoes {
+	width: 850px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+nav#opcoes ul {
+	margin: 0;
+	padding: 0;
+	list-style:none;
+}
+
+nav#opcoes ul li {
+	display: inline-block;
+	height: 100px;
+	width: 140px;
+	margin-left: 6.3%;
+	
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 10pt;
+	font-weight: bold;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+nav#opcoes ul li span {
+	display: block;
+	margin-top: 76%;
+}
+
+nav#opcoes ul li span a {
+	margin-top: 10px;
+	border-radius: 3px;
+	padding: 5px;
+	background-color: #FFF;
+	text-decoration: none;
+	color: #000;
+}
+
+nav#opcoes ul li:hover span a {
+background-color: #ffeca2;
+}
+
+nav#opcoes ul li.ativo span a {
+background-color: #ffb400;
+}
+
+nav#opcoes ul li.home { background-image: url('images/icones/index_web.png'); }
+nav#opcoes ul li.formularios { background-image: url('images/icones/index_formularios.png'); }
+nav#opcoes ul li.relatorios { background-image: url('images/icones/index_relatorios.png'); }
+nav#opcoes ul li.usuarios { background-image: url('images/icones/index_usuarios.png'); }
+
+#corpo {
+	margin-top: 15px;
+	min-height: 200px;
+}
+
+
+#footer {
+	border-top: 1px solid #000;
+	margin-top: 20px;
+	width: 100%;
+	height: 140px;
+	text-align: center;
+	background-color: #353232;
+	position: relative;
+}
+
+#footer p {
+	margin-top: 50px;
+	color: #FFF;
+	font-size: 12pt;
+}
