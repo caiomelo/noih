@@ -19,13 +19,12 @@ public class FuncionarioDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO funcionario " +
-			"(id, nome, login, senha, cargo) " +
-			"VALUES (?, ?, ?, ?, ?);");
-			preparedStatement.setLong(1, funcionario.getId());
-			preparedStatement.setString(2, funcionario.getNome());
-			preparedStatement.setString(3, funcionario.getLogin());
-			preparedStatement.setString(4, funcionario.getSenha());
-			preparedStatement.setString(5, funcionario.getCargo());
+			"(nome, login, senha, cargo) " +
+			"VALUES (?, ?, ?, ?);");
+			preparedStatement.setString(1, funcionario.getNome());
+			preparedStatement.setString(2, funcionario.getLogin());
+			preparedStatement.setString(3, funcionario.getSenha());
+			preparedStatement.setString(4, funcionario.getCargo());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -50,7 +49,6 @@ public class FuncionarioDAO {
 			if(resultSet.next())
 			{
 				funcionario = new Funcionario();
-				funcionario.setId(resultSet.getLong("id"));
 				funcionario.setNome(resultSet.getString("nome"));
 				funcionario.setLogin(resultSet.getString("login"));
 				funcionario.setSenha(resultSet.getString("senha"));
@@ -74,18 +72,16 @@ public class FuncionarioDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE funcionario SET " +
-			"id = ?, " +
 			"nome = ?, " +
 			"login = ?, " +
 			"senha = ?, " +
 			"cargo = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, funcionario.getId());
-			preparedStatement.setString(2, funcionario.getNome());
-			preparedStatement.setString(3, funcionario.getLogin());
-			preparedStatement.setString(4, funcionario.getSenha());
-			preparedStatement.setString(5, funcionario.getCargo());
-			preparedStatement.setLong(6, funcionario.getId());
+			preparedStatement.setString(1, funcionario.getNome());
+			preparedStatement.setString(2, funcionario.getLogin());
+			preparedStatement.setString(3, funcionario.getSenha());
+			preparedStatement.setString(4, funcionario.getCargo());
+			preparedStatement.setLong(5, funcionario.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -127,7 +123,6 @@ public class FuncionarioDAO {
 			{
 				Funcionario funcionario = new Funcionario();
 
-				funcionario.setId(resultSet.getLong("id"));
 				funcionario.setNome(resultSet.getString("nome"));
 				funcionario.setLogin(resultSet.getString("login"));
 				funcionario.setSenha(resultSet.getString("senha"));

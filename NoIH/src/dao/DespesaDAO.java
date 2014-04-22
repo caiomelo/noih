@@ -19,13 +19,12 @@ public class DespesaDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO despesa " +
-			"(id, data_hora, registro, servico, valor) " +
-			"VALUES (?, ?, ?, ?, ?);");
-			preparedStatement.setLong(1, despesa.getId());
-			preparedStatement.setDate(2, new java.sql.Date(despesa.getDataHora().getTime().getTime()));
-			preparedStatement.setLong(3, despesa.getRegistro());
-			preparedStatement.setLong(4, despesa.getServico());
-			preparedStatement.setDouble(5, despesa.getValor());
+			"(data_hora, registro, servico, valor) " +
+			"VALUES (?, ?, ?, ?);");
+			preparedStatement.setDate(1, new java.sql.Date(despesa.getDataHora().getTime().getTime()));
+			preparedStatement.setLong(2, despesa.getRegistro().getId());
+			preparedStatement.setLong(3, despesa.getServico().getId());
+			preparedStatement.setDouble(4, despesa.getValor());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -50,15 +49,14 @@ public class DespesaDAO {
 			if(resultSet.next())
 			{
 				despesa = new Despesa();
-				despesa.setId(resultSet.getLong("id"));
 
 				java.util.Date data_hora = resultSet.getDate("data_hora");
 				java.util.GregorianCalendar data_horaCalendar = new java.util.GregorianCalendar();
 				data_horaCalendar.setTime(data_hora);
 				despesa.setDataHora(data_horaCalendar);
 
-				despesa.setRegistro(resultSet.getLong("registro"));
-				despesa.setServico(resultSet.getLong("servico"));
+				despesa.setRegistro(RegistroDAO.read(resultSet.getLong("registro")));
+				despesa.setServico(ServicoDAO.read(resultSet.getLong("servico")));
 				despesa.setValor(resultSet.getDouble("valor"));
 				despesa.setId(id);
 			}
@@ -79,18 +77,16 @@ public class DespesaDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE despesa SET " +
-			"id = ?, " +
 			"data_hora = ?, " +
 			"registro = ?, " +
 			"servico = ?, " +
 			"valor = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, despesa.getId());
-			preparedStatement.setDate(2, new java.sql.Date(despesa.getDataHora().getTime().getTime()));
-			preparedStatement.setLong(3, despesa.getRegistro());
-			preparedStatement.setLong(4, despesa.getServico());
-			preparedStatement.setDouble(5, despesa.getValor());
-			preparedStatement.setLong(6, despesa.getId());
+			preparedStatement.setDate(1, new java.sql.Date(despesa.getDataHora().getTime().getTime()));
+			preparedStatement.setLong(2, despesa.getRegistro().getId());
+			preparedStatement.setLong(3, despesa.getServico().getId());
+			preparedStatement.setDouble(4, despesa.getValor());
+			preparedStatement.setLong(5, despesa.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -132,15 +128,13 @@ public class DespesaDAO {
 			{
 				Despesa despesa = new Despesa();
 
-				despesa.setId(resultSet.getLong("id"));
-
 				java.util.Date data_hora = resultSet.getDate("data_hora");
 				java.util.GregorianCalendar data_horaCalendar = new java.util.GregorianCalendar();
 				data_horaCalendar.setTime(data_hora);
 				despesa.setDataHora(data_horaCalendar);
 
-				despesa.setRegistro(resultSet.getLong("registro"));
-				despesa.setServico(resultSet.getLong("servico"));
+				despesa.setRegistro(RegistroDAO.read(resultSet.getLong("registro")));
+				despesa.setServico(ServicoDAO.read(resultSet.getLong("servico")));
 				despesa.setValor(resultSet.getDouble("valor"));
 				despesa.setId(resultSet.getLong("id"));
 				despesas.add(despesa);

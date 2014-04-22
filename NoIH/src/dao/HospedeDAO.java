@@ -19,12 +19,11 @@ public class HospedeDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO hospede " +
-			"(id, nome, telefone, email) " +
-			"VALUES (?, ?, ?, ?);");
-			preparedStatement.setLong(1, hospede.getId());
-			preparedStatement.setString(2, hospede.getNome());
-			preparedStatement.setString(3, hospede.getTelefone());
-			preparedStatement.setString(4, hospede.getEmail());
+			"(nome, telefone, email) " +
+			"VALUES (?, ?, ?);");
+			preparedStatement.setString(1, hospede.getNome());
+			preparedStatement.setString(2, hospede.getTelefone());
+			preparedStatement.setString(3, hospede.getEmail());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -49,7 +48,6 @@ public class HospedeDAO {
 			if(resultSet.next())
 			{
 				hospede = new Hospede();
-				hospede.setId(resultSet.getLong("id"));
 				hospede.setNome(resultSet.getString("nome"));
 				hospede.setTelefone(resultSet.getString("telefone"));
 				hospede.setEmail(resultSet.getString("email"));
@@ -72,16 +70,14 @@ public class HospedeDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE hospede SET " +
-			"id = ?, " +
 			"nome = ?, " +
 			"telefone = ?, " +
 			"email = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, hospede.getId());
-			preparedStatement.setString(2, hospede.getNome());
-			preparedStatement.setString(3, hospede.getTelefone());
-			preparedStatement.setString(4, hospede.getEmail());
-			preparedStatement.setLong(5, hospede.getId());
+			preparedStatement.setString(1, hospede.getNome());
+			preparedStatement.setString(2, hospede.getTelefone());
+			preparedStatement.setString(3, hospede.getEmail());
+			preparedStatement.setLong(4, hospede.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -123,7 +119,6 @@ public class HospedeDAO {
 			{
 				Hospede hospede = new Hospede();
 
-				hospede.setId(resultSet.getLong("id"));
 				hospede.setNome(resultSet.getString("nome"));
 				hospede.setTelefone(resultSet.getString("telefone"));
 				hospede.setEmail(resultSet.getString("email"));

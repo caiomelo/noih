@@ -69,6 +69,6 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva{" + "id=" + id + ", apartamento=" + apartamento + ", hospede=" + hospede + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", funcionario=" + funcionario + '}';
+        return "Reserva{" + "id=" + id + ", apartamento=" + apartamento + ", hospede=" + hospede + ",\n dataInicio=" + dataInicio.getTime() + ",\n dataFim=" + dataFim.getTime() + ", funcionario=" + funcionario + '}';
     }
 }

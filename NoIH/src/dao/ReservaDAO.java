@@ -19,14 +19,13 @@ public class ReservaDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO reserva " +
-			"(id, apartamento, hospede, data_inicio, data_fim, funcionario) " +
-			"VALUES (?, ?, ?, ?, ?, ?);");
-			preparedStatement.setLong(1, reserva.getId());
-			preparedStatement.setLong(2, reserva.getApartamento());
-			preparedStatement.setLong(3, reserva.getHospede());
-			preparedStatement.setDate(4, new java.sql.Date(reserva.getDataInicio().getTime().getTime()));
-			preparedStatement.setDate(5, new java.sql.Date(reserva.getDataFim().getTime().getTime()));
-			preparedStatement.setLong(6, reserva.getFuncionario());
+			"(apartamento, hospede, data_inicio, data_fim, funcionario) " +
+			"VALUES (?, ?, ?, ?, ?);");
+			preparedStatement.setLong(1, reserva.getApartamento().getId());
+			preparedStatement.setLong(2, reserva.getHospede().getId());
+			preparedStatement.setDate(3, new java.sql.Date(reserva.getDataInicio().getTime().getTime()));
+			preparedStatement.setDate(4, new java.sql.Date(reserva.getDataFim().getTime().getTime()));
+			preparedStatement.setLong(5, reserva.getFuncionario().getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -51,9 +50,8 @@ public class ReservaDAO {
 			if(resultSet.next())
 			{
 				reserva = new Reserva();
-				reserva.setId(resultSet.getLong("id"));
-				reserva.setApartamento(resultSet.getLong("apartamento"));
-				reserva.setHospede(resultSet.getLong("hospede"));
+				reserva.setApartamento(ApartamentoDAO.read(resultSet.getLong("apartamento")));
+				reserva.setHospede(HospedeDAO.read(resultSet.getLong("hospede")));
 
 				java.util.Date data_inicio = resultSet.getDate("data_inicio");
 				java.util.GregorianCalendar data_inicioCalendar = new java.util.GregorianCalendar();
@@ -66,7 +64,7 @@ public class ReservaDAO {
 				data_fimCalendar.setTime(data_fim);
 				reserva.setDataFim(data_fimCalendar);
 
-				reserva.setFuncionario(resultSet.getLong("funcionario"));
+				reserva.setFuncionario(FuncionarioDAO.read(resultSet.getLong("funcionario")));
 				reserva.setId(id);
 			}
 
@@ -86,20 +84,18 @@ public class ReservaDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE reserva SET " +
-			"id = ?, " +
 			"apartamento = ?, " +
 			"hospede = ?, " +
 			"data_inicio = ?, " +
 			"data_fim = ?, " +
 			"funcionario = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, reserva.getId());
-			preparedStatement.setLong(2, reserva.getApartamento());
-			preparedStatement.setLong(3, reserva.getHospede());
-			preparedStatement.setDate(4, new java.sql.Date(reserva.getDataInicio().getTime().getTime()));
-			preparedStatement.setDate(5, new java.sql.Date(reserva.getDataFim().getTime().getTime()));
-			preparedStatement.setLong(6, reserva.getFuncionario());
-			preparedStatement.setLong(7, reserva.getId());
+			preparedStatement.setLong(1, reserva.getApartamento().getId());
+			preparedStatement.setLong(2, reserva.getHospede().getId());
+			preparedStatement.setDate(3, new java.sql.Date(reserva.getDataInicio().getTime().getTime()));
+			preparedStatement.setDate(4, new java.sql.Date(reserva.getDataFim().getTime().getTime()));
+			preparedStatement.setLong(5, reserva.getFuncionario().getId());
+			preparedStatement.setLong(6, reserva.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -141,9 +137,8 @@ public class ReservaDAO {
 			{
 				Reserva reserva = new Reserva();
 
-				reserva.setId(resultSet.getLong("id"));
-				reserva.setApartamento(resultSet.getLong("apartamento"));
-				reserva.setHospede(resultSet.getLong("hospede"));
+				reserva.setApartamento(ApartamentoDAO.read(resultSet.getLong("apartamento")));
+				reserva.setHospede(HospedeDAO.read(resultSet.getLong("hospede")));
 
 				java.util.Date data_inicio = resultSet.getDate("data_inicio");
 				java.util.GregorianCalendar data_inicioCalendar = new java.util.GregorianCalendar();
@@ -156,7 +151,7 @@ public class ReservaDAO {
 				data_fimCalendar.setTime(data_fim);
 				reserva.setDataFim(data_fimCalendar);
 
-				reserva.setFuncionario(resultSet.getLong("funcionario"));
+				reserva.setFuncionario(FuncionarioDAO.read(resultSet.getLong("funcionario")));
 				reserva.setId(resultSet.getLong("id"));
 				reservas.add(reserva);
 			}

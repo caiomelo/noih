@@ -14,7 +14,7 @@ public class Connector {
 //	private final static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 //	private final static String DATABASE_URL = "jdbc:mysql://localhost/morcego";
 	private final static String JDBC_DRIVER = "org.postgresql.Driver";
-	public final static String DATABASE_URL = "jdbc:postgresql://localhost:5432/sid_temas_comentarios";
+	public final static String DATABASE_URL = "jdbc:postgresql://localhost:5432/noih";
 	//host defaults to localhost, pgadmin port defaults to 5432
         
         public static String DATABASE_COMPRAS_COLETIVAS = "sid_temas_comentarios";

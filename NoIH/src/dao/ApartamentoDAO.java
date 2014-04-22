@@ -19,12 +19,11 @@ public class ApartamentoDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO apartamento " +
-			"(id, andar, numero, tipo) " +
-			"VALUES (?, ?, ?, ?);");
-			preparedStatement.setLong(1, apartamento.getId());
-			preparedStatement.setInt(2, apartamento.getAndar());
-			preparedStatement.setInt(3, apartamento.getNumero());
-			preparedStatement.setString(4, apartamento.getTipo());
+			"(andar, numero, tipo) " +
+			"VALUES (?, ?, ?);");
+			preparedStatement.setInt(1, apartamento.getAndar());
+			preparedStatement.setInt(2, apartamento.getNumero());
+			preparedStatement.setString(3, apartamento.getTipo());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();

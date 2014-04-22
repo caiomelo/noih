@@ -19,12 +19,11 @@ public class ServicoDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO servico " +
-			"(id, nome, tipo, valor) " +
-			"VALUES (?, ?, ?, ?);");
-			preparedStatement.setLong(1, servico.getId());
-			preparedStatement.setString(2, servico.getNome());
-			preparedStatement.setString(3, servico.getTipo());
-			preparedStatement.setDouble(4, servico.getValor());
+			"(nome, tipo, valor) " +
+			"VALUES (?, ?, ?);");
+			preparedStatement.setString(1, servico.getNome());
+			preparedStatement.setString(2, servico.getTipo());
+			preparedStatement.setDouble(3, servico.getValor());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -49,7 +48,6 @@ public class ServicoDAO {
 			if(resultSet.next())
 			{
 				servico = new Servico();
-				servico.setId(resultSet.getLong("id"));
 				servico.setNome(resultSet.getString("nome"));
 				servico.setTipo(resultSet.getString("tipo"));
 				servico.setValor(resultSet.getDouble("valor"));
@@ -72,16 +70,14 @@ public class ServicoDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE servico SET " +
-			"id = ?, " +
 			"nome = ?, " +
 			"tipo = ?, " +
 			"valor = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, servico.getId());
-			preparedStatement.setString(2, servico.getNome());
-			preparedStatement.setString(3, servico.getTipo());
-			preparedStatement.setDouble(4, servico.getValor());
-			preparedStatement.setLong(5, servico.getId());
+			preparedStatement.setString(1, servico.getNome());
+			preparedStatement.setString(2, servico.getTipo());
+			preparedStatement.setDouble(3, servico.getValor());
+			preparedStatement.setLong(4, servico.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -123,7 +119,6 @@ public class ServicoDAO {
 			{
 				Servico servico = new Servico();
 
-				servico.setId(resultSet.getLong("id"));
 				servico.setNome(resultSet.getString("nome"));
 				servico.setTipo(resultSet.getString("tipo"));
 				servico.setValor(resultSet.getDouble("valor"));

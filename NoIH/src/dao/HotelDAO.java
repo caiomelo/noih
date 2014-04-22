@@ -19,10 +19,9 @@ public class HotelDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO hotel " +
-			"(id, nome) " +
-			"VALUES (?, ?);");
-			preparedStatement.setLong(1, hotel.getId());
-			preparedStatement.setLong(2, hotel.getNome());
+			"(nome) " +
+			"VALUES (?);");
+			preparedStatement.setString(1, hotel.getNome());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -47,8 +46,7 @@ public class HotelDAO {
 			if(resultSet.next())
 			{
 				hotel = new Hotel();
-				hotel.setId(resultSet.getLong("id"));
-				hotel.setNome(resultSet.getLong("nome"));
+				hotel.setNome(resultSet.getString("nome"));
 				hotel.setId(id);
 			}
 
@@ -68,12 +66,10 @@ public class HotelDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE hotel SET " +
-			"id = ?, " +
 			"nome = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, hotel.getId());
-			preparedStatement.setLong(2, hotel.getNome());
-			preparedStatement.setLong(3, hotel.getId());
+			preparedStatement.setString(1, hotel.getNome());
+			preparedStatement.setLong(2, hotel.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -116,8 +112,7 @@ public class HotelDAO {
 				Hotel hotel = new Hotel();
 
 				hotel.setId(resultSet.getLong("id"));
-				hotel.setNome(resultSet.getLong("nome"));
-				hotel.setId(resultSet.getLong("id"));
+				hotel.setNome(resultSet.getString("nome"));
 				hotels.add(hotel);
 			}
 

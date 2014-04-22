@@ -19,15 +19,14 @@ public class RegistroDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO registro " +
-			"(id, checkin, checkout, reserva, hospede, apartamento, funcionario) " +
-			"VALUES (?, ?, ?, ?, ?, ?, ?);");
-			preparedStatement.setLong(1, registro.getId());
-			preparedStatement.setDate(2, new java.sql.Date(registro.getCheckin().getTime().getTime()));
-			preparedStatement.setDate(3, new java.sql.Date(registro.getCheckout().getTime().getTime()));
-			preparedStatement.setLong(4, registro.getReserva().getId());
-			preparedStatement.setLong(5, registro.getHospede().getId());
-			preparedStatement.setLong(6, registro.getApartamento().getId());
-			preparedStatement.setLong(7, registro.getFuncionario().getId());
+			"(checkin, checkout, reserva, hospede, apartamento, funcionario) " +
+			"VALUES (?, ?, ?, ?, ?, ?);");
+			preparedStatement.setDate(1, new java.sql.Date(registro.getCheckin().getTime().getTime()));
+			preparedStatement.setDate(2, new java.sql.Date(registro.getCheckout().getTime().getTime()));
+			preparedStatement.setLong(3, registro.getReserva().getId());
+			preparedStatement.setLong(4, registro.getHospede().getId());
+			preparedStatement.setLong(5, registro.getApartamento().getId());
+			preparedStatement.setLong(6, registro.getFuncionario().getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
