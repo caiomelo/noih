@@ -22,7 +22,7 @@ public class ServicoDAO {
 			"(nome, valor) " +
 			"VALUES (?, ?);");
 			preparedStatement.setString(1, servico.getNome());
-			preparedStatement.setDouble(3, servico.getValor());
+			preparedStatement.setDouble(2, servico.getValor());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -72,8 +72,8 @@ public class ServicoDAO {
 			"valor = ? " +
  			"WHERE id = ?;");
 			preparedStatement.setString(1, servico.getNome());
-			preparedStatement.setDouble(3, servico.getValor());
-			preparedStatement.setLong(4, servico.getId());
+			preparedStatement.setDouble(2, servico.getValor());
+			preparedStatement.setLong(3, servico.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();

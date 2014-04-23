@@ -5,7 +5,10 @@
 <title>VRaptor Blank Project</title>
 </head>
 <body>
-	It works!! ${variable}
+	It works!! ${variable}        
+        <p align="center"><a href="servico/servicos">Servicos</a></p>
+        
+        
         <p align="center"><a href="tema/formulario">Cadastrar Tema</a></p>
         <p align="center"><a href="comentario/formulario">Comentar Tema</a></p>
 </body>
