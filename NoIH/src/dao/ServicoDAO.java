@@ -19,10 +19,9 @@ public class ServicoDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO servico " +
-			"(nome, tipo, valor) " +
-			"VALUES (?, ?, ?);");
+			"(nome, valor) " +
+			"VALUES (?, ?);");
 			preparedStatement.setString(1, servico.getNome());
-			preparedStatement.setString(2, servico.getTipo());
 			preparedStatement.setDouble(3, servico.getValor());
 
 			preparedStatement.executeUpdate();
@@ -49,7 +48,6 @@ public class ServicoDAO {
 			{
 				servico = new Servico();
 				servico.setNome(resultSet.getString("nome"));
-				servico.setTipo(resultSet.getString("tipo"));
 				servico.setValor(resultSet.getDouble("valor"));
 				servico.setId(id);
 			}
@@ -71,11 +69,9 @@ public class ServicoDAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE servico SET " +
 			"nome = ?, " +
-			"tipo = ?, " +
 			"valor = ? " +
  			"WHERE id = ?;");
 			preparedStatement.setString(1, servico.getNome());
-			preparedStatement.setString(2, servico.getTipo());
 			preparedStatement.setDouble(3, servico.getValor());
 			preparedStatement.setLong(4, servico.getId());
 
@@ -120,7 +116,6 @@ public class ServicoDAO {
 				Servico servico = new Servico();
 
 				servico.setNome(resultSet.getString("nome"));
-				servico.setTipo(resultSet.getString("tipo"));
 				servico.setValor(resultSet.getDouble("valor"));
 				servico.setId(resultSet.getLong("id"));
 				servicos.add(servico);

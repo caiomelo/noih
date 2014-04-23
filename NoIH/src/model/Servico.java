@@ -12,7 +12,6 @@ public class Servico {
     //Primary key
     private long id;
     private String nome;
-    private String tipo;
     private double valor;
 
     public long getId() {
@@ -31,14 +30,6 @@ public class Servico {
         this.nome = nome;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public double getValor() {
         return valor;
     }
@@ -49,6 +40,6 @@ public class Servico {
 
     @Override
     public String toString() {
-        return "Servico{" + "id=" + id + ", nome=" + nome + ", tipo=" + tipo + ", valor=" + valor + '}';
+        return "Servico{" + "id=" + id + ", nome=" + nome + ", valor=" + valor + '}';
     }
 }
