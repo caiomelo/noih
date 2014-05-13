@@ -31,6 +31,6 @@
                 </tr>
             </c:forEach>
         </table>
-        <p align="center"><a href="novo">Novo serviço</a></p>
+        <p align="center"><a href="novo">Novo hospede</a></p>
     </body>
 </html>
