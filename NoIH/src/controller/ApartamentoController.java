@@ -74,10 +74,10 @@ public class ApartamentoController {
         return ApartamentoDAO.getAll();
     }
     
-    public Apartamento editar(Apartamento apartamento)
+    public void editar(Apartamento apartamento)
     {
         apartamento = ApartamentoDAO.read(apartamento.getId());
-        return apartamento;
+        result.include(apartamento);
     }
     
     public void excluir(Apartamento apartamento)

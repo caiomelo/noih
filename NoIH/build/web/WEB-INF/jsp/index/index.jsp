@@ -11,5 +11,6 @@
         <p align="center"><a href="check/checkin">Check in</a></p>
         <p align="center"><a href="check/checkout">Check out</a></p>
         <p align="center"><a href="apartamento/apartamentos">Apartamentos</a></p>
+        <p align="center"><a href="reserva/reservas">Reservas</a></p>
 </body>
 </html>
