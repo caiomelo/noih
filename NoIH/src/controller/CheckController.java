@@ -11,6 +11,8 @@ import dao.HospedeDAO;
 import dao.RegistroDAO;
 import dao.ReservaDAO;
 import java.util.GregorianCalendar;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import model.*;
 
 /**
@@ -33,8 +35,21 @@ public class CheckController {
     
     public void apartamento(Hospede hospede, Reserva reserva)
     {
-        result.include("reserva", reserva.getId());
-        result.include("hospede", hospede.getId());
+        result.include("reserva", reserva);
+        result.include("hospede", hospede);
+        
+        Date date = null;
+        if(reserva.getId() != 0)
+        {
+            date = reserva.getDataFim().getTime();            
+        }
+        else
+        {
+            date = new GregorianCalendar().getTime();
+        }
+        
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        result.include("dataFim", df.format(date));
         result.include("apartamentos", ApartamentoDAO.getAll());
         System.out.println("reserva.getId(): " + reserva.getId());
         System.out.println("hospede.getId(): " + hospede.getId());
@@ -44,12 +59,15 @@ public class CheckController {
     {
         Registro registro = new Registro();
         apartamento = ApartamentoDAO.read(apartamento.getId());
-        reserva = ReservaDAO.read(reserva.getId());
+        if(reserva.getId() != 0)
+        {
+            reserva = ReservaDAO.read(reserva.getId());
+        }
+        registro.setReserva(reserva);
+        registro.setCheckout(reserva.getDataFim());
         registro.setApartamento(apartamento);
         registro.setHospede(hospede);
-        registro.setReserva(reserva);
         registro.setCheckin(new GregorianCalendar());
-        registro.setCheckout(reserva.getDataFim());
         registro.setFuncionario(new Funcionario());
         RegistroDAO.create(registro);
         result.include("apartamento", apartamento);
