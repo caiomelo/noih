@@ -14,14 +14,16 @@
     </head>
     <body>
         <form action="checkin" method="post">
-            <input type="hidden" name="hospede.id" value="${hospede}">
-            <input type="hidden" name="reserva.id" value="${reserva}">
+            <input type="hidden" name="hospede.id" value="${hospede.id}">
+            <input type="hidden" name="reserva.id" value="${reserva.id}">
             Apartamento:
             <select name="apartamento.id">
                 <c:forEach var="apartamento" items="${apartamentos}">
                     <option value="${apartamento.id}">Andar ${apartamento.andar} Apartamento ${apartamento.numero}</option>
                 </c:forEach>
             </select>
+            Data prevista para checkout:
+            <input type="text" name="reserva.dataFim" value="${dataFim}">
             <input type="submit">
         </form>
     </body>
