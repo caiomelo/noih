@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>Apartamento</title>
     </head>
     <body>
         <table border="1" align="center">
@@ -32,5 +32,6 @@
             </c:forEach>
         </table>
         <p align="center"><a href="novo">Novo apartamento</a></p>
+        <p align="center"><a href="/NoIH">Início</a></p>
     </body>
 </html>

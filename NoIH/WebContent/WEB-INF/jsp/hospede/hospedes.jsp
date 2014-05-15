@@ -1,5 +1,5 @@
 <%-- 
-    Document   : servicos
+    Document   : hospedes
     Created on : 22/04/2014, 21:26:09
     Author     : RodriguesMoises
 --%>
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Hóspede</title>
     </head>
     <body>
         <table border="1" align="center">
@@ -32,5 +32,7 @@
             </c:forEach>
         </table>
         <p align="center"><a href="novo">Novo hospede</a></p>
+        <p align="center"><a href="/NoIH">Início</a></p>
+
     </body>
 </html>

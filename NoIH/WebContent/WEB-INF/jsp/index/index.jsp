@@ -7,6 +7,7 @@
 <body>
         <p align="center"><a href="servico/servicos">Servicos</a></p>
         <p align="center"><a href="hospede/hospedes">Hospedes</a></p>
+        <p align="center"><a href="funcionario/funcionarios">Funcionários</a></p>
         <p align="center"><a href="check/checkin">Check in</a></p>
         <p align="center"><a href="check/checkout">Check out</a></p>
         <p align="center"><a href="apartamento/apartamentos">Apartamentos</a></p>
