@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : seleciona-quarto
     Created on : May 14, 2014, 11:50:50 PM
     Author     : Caio
@@ -13,8 +13,10 @@
         <title>Selecione apartamento</title>
     </head>
     <body>
+        Apartamentos disponíveis no periodo<br>
+        De: ${dataInicio}<br>
+        Até: ${dataFim}<br>
         <form action="concluir" method="post">
-            <input type="hidden" name="hospede.id" value="${hospede}">
             Apartamento:
             <select name="apartamento.id">
                 <c:forEach var="apartamento" items="${apartamentos}">

@@ -27,19 +27,19 @@ public class Reserva {
         this.apartamento = apartamento;
     }
 
-    public GregorianCalendar getDataFim() {
+    public  GregorianCalendar getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(GregorianCalendar dataFim) {
+    public void setDataFim( GregorianCalendar dataFim) {
         this.dataFim = dataFim;
     }
 
-    public GregorianCalendar getDataInicio() {
+    public  GregorianCalendar getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(GregorianCalendar dataInicio) {
+    public void setDataInicio( GregorianCalendar dataInicio) {
         this.dataInicio = dataInicio;
     }
 

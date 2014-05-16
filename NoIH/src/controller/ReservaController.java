@@ -9,7 +9,6 @@ import br.com.caelum.vraptor.Result;
 import dao.ApartamentoDAO;
 import dao.ReservaDAO;
 import java.util.List;
-import model.Apartamento;
 import model.Reserva;
 
 /**
@@ -18,12 +17,12 @@ import model.Reserva;
  */
 @Resource
 public class ReservaController {
+
     private Result result;
     private Reserva reserva;
     private List<Reserva> reservas;
-    
-    public ReservaController(Result result)
-    {
+
+    public ReservaController(Result result) {
         this.result = result;
     }
 
@@ -50,45 +49,37 @@ public class ReservaController {
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
-    
-    public void novo()
-    {
-        
+
+    public void novo() {
     }
-    
-    public void adiciona(Reserva reserva)
-    {
+
+    public void adiciona(Reserva reserva) {
         System.out.println("\nadicionando...\n");
-        if(reserva.getId() == 0)
-        {
+        if (reserva.getId() == 0) {
             ReservaDAO.create(reserva);
-        }
-        else
-        {
+        } else {
             ReservaDAO.update(reserva);
         }
         getResult().forwardTo(this).reservas();
     }
-    
-    public List<Reserva> reservas()
-    {
+
+    public List<Reserva> reservas() {
         return ReservaDAO.getAll();
     }
-    
-    public void editar(Reserva reserva)
-    {
+
+    public void editar(Reserva reserva) {
         reserva = ReservaDAO.read(reserva.getId());
         result.include(reserva);
     }
-    
-    public void excluir(Reserva reserva)
-    {
+
+    public void excluir(Reserva reserva) {
         ReservaDAO.delete(reserva.getId());
         getResult().forwardTo(this).reservas();
     }
-    
-    public void apartamentos()
-    {
+
+    public void apartamentos(String dataInicio, String dataFim) {
+        result.include("dataInicio", dataInicio);
+        result.include("dataFim", dataFim);
         result.include("apartamentos", ApartamentoDAO.getAll());
     }
 }

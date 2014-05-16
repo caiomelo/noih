@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : novo
     Created on : May 14, 2014, 11:39:35 PM
     Author     : Caio
@@ -15,9 +15,8 @@
         <form action="apartamentos" method="post">
             <p align="center">
                 <input type="hidden" name="reserva.id">
-                De:<input type="datetime" name="reserva.dataInicio"><br/>
-                Até:<input type="date" name="reserva.dataFim"><br/>
-                Hóspede:<input type="date" name="reserva.hospede.nome"><br/>
+                De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
+                Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
                 <input type="submit">
             </p>
         </form>

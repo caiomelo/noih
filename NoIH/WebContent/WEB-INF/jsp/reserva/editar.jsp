@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : editar
     Created on : May 14, 2014, 11:39:45 PM
     Author     : Caio
@@ -15,8 +15,8 @@
         <form action="adiciona" method="post">
             <p align="center">
                 <input type="hidden" name="reserva.id" value="${reserva.id}">
-                De:<input type="datetime" name="reserva.dataInicio" value="${reserva.dataInicio}"><br/>
-                Até:<input type="date" name="reserva.dataFim" value="${reserva.dataFim}"><br/>
+                De:<input type="text" name="reserva.dataInicio.time" value="${reserva.dataInicio.time}"><br/>
+                Até:<input type="text" name="reserva.dataFim.time" value="${reserva.dataFim.time}"><br/>
                 <input type="submit">
             </p>
         </form>
