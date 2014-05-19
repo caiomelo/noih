@@ -12,11 +12,11 @@
         <title>Nova reserva</title>
     </head>
     <body>
-        <form action="apartamentos" method="post">
+        <form action="apartamentoHospedeFuncionario" method="post">
             <p align="center">
-                <input type="hidden" name="reserva.id">
                 De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
                 Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
+                <input type="hidden" name="reservaId" value="${reserva.id}">
                 <input type="submit">
             </p>
         </form>

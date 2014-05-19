@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : editar
     Created on : 10/05/2014, 20:39:24
     Author     : RodriguesMoises
@@ -16,7 +16,7 @@
             <p align="center">
                 <input type="hidden" name="hospede.id" value="${hospede.id}">
                 Nome:<input type="text" name="hospede.nome" value="${hospede.nome}"><br/>
-                Telefone:<input type="text" name="hospede.telefone" value="${hospede.valor}"><br/>
+                Telefone:<input type="text" name="hospede.telefone" value="${hospede.telefone}"><br/>
                 Email:<input type="text" name="hospede.email" value="${hospede.email}"><br/>
                 <input type="submit">
             </p>

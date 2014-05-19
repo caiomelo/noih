@@ -1,6 +1,6 @@
 <%--
-    Document   : seleciona-quarto
-    Created on : May 14, 2014, 11:50:50 PM
+    Document   : apartamento
+    Created on : May 19, 2014, 1:41:12 AM
     Author     : Caio
 --%>
 
@@ -16,13 +16,20 @@
         Apartamentos disponíveis no periodo<br>
         De: ${dataInicio}<br>
         Até: ${dataFim}<br>
+        <br>
         <form action="concluir" method="post">
+            <input type="hidden" name="reservaId" value="${reservaId}">
+            <input type="hidden" name="dataInicio" value="${dataInicio}">
+            <input type="hidden" name="dataFim" value="${dataFim}">
+            <input type="hidden" name="hospedeId" value="${hospedeId}">
+            <input type="hidden" name="funcionarioId" value="${funcionarioId}">
             Apartamento:
-            <select name="apartamento.id">
+            <select name="apartamentoId">
                 <c:forEach var="apartamento" items="${apartamentos}">
-                    <option value="${apartamento.id}">Apartamento ${apartamento.numero}</option>
+                    <option value="${apartamento.id}">${apartamento.numero}</option>
                 </c:forEach>
             </select>
+            <br>
             <input type="submit">
         </form>
     </body>

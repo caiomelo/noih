@@ -5,20 +5,33 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Editar reserva</title>
     </head>
-    <body>
-        <form action="adiciona" method="post">
+    <h:body>
+        <h:outputText value=" ${reserva.dataInicio.time}">Data de entrada:
+            <f:formatDate value="${reserva.dataInicio.time}" pattern="dd/MM/yyyy"/>
+        </h:outputText><br>
+        <h:outputText value=" ${reserva.dataFim.time}">Data de saída:
+            <f:formatDate value="${reserva.dataFim.time}" pattern="dd/MM/yyyy"/>
+        </h:outputText><br>
+        Apartamento: ${reserva.apartamento.numero}<br>
+        Hóspede: ${reserva.hospede.nome}<br>
+        Funcionário ${reserva.funcionario.nome}<br>
+
+        <form action="apartamento" method="post">
             <p align="center">
-                <input type="hidden" name="reserva.id" value="${reserva.id}">
-                De:<input type="text" name="reserva.dataInicio.time" value="${reserva.dataInicio.time}"><br/>
-                Até:<input type="text" name="reserva.dataFim.time" value="${reserva.dataFim.time}"><br/>
+                De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
+                Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
+                <input type="hidden" name="reservaId" value="${reserva.id}">
+                <input type="hidden" name="hospedeId" value="${reserva.hospede.id}">
+                <input type="hidden" name="funcionarioId" value="${reserva.funcionario.id}">
                 <input type="submit">
             </p>
         </form>
-    </body>
+    </h:body>
 </html>

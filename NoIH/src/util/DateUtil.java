@@ -4,7 +4,6 @@
  */
 package util;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -21,11 +20,6 @@ public class DateUtil {
     private static boolean isValidDate(String date) {
         boolean result = false;
         GregorianCalendar data = getGregorianCalendarDate(date);
-        int[] dateInts = getDate(date);
-        int dia = dateInts[0];
-        int mes = dateInts[1] - 1; //some weird behaviour from GregorianCalendar constructor below
-        int ano = dateInts[2];
-
         GregorianCalendar now = new GregorianCalendar();
         if (now.compareTo(data) <= 0) {
             result = true;
@@ -38,10 +32,8 @@ public class DateUtil {
         boolean result = false;
 
         if (isValidDate(dataInicio) && isValidDate(dataFinal)) {
-            int[] ini = getDate(dataInicio);
-            Calendar dataIn = new GregorianCalendar(ini[2], ini[1] - 1, ini[0], HORAS, MINUTOS, SEGUNDOS);
-            int[] fim = getDate(dataFinal);
-            Calendar dataFin = new GregorianCalendar(fim[2], fim[1] - 1, fim[0], HORAS, MINUTOS, SEGUNDOS);
+            GregorianCalendar dataIn = getGregorianCalendarDate(dataInicio);
+            GregorianCalendar dataFin = getGregorianCalendarDate(dataFinal);
 
             if (dataIn.compareTo(dataFin) < 0) {
                 result = true;

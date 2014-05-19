@@ -16,13 +16,10 @@ import model.Apartamento;
  */
 @Resource
 public class ApartamentoController {
-    
+
     private Result result;
-    private Apartamento apartamento;
-    private List<Apartamento> apartamentos;
-    
-    public ApartamentoController(Result result)
-    {
+
+    public ApartamentoController(Result result) {
         this.result = result;
     }
 
@@ -34,54 +31,29 @@ public class ApartamentoController {
         this.result = result;
     }
 
-    public Apartamento getApartamento() {
-        return apartamento;
+    public void novo() {
     }
 
-    public void setApartamento(Apartamento apartamento) {
-        this.apartamento = apartamento;
-    }
-
-    public List<Apartamento> getApartamentos() {
-        return apartamentos;
-    }
-
-    public void setApartamentos(List<Apartamento> apartamentos) {
-        this.apartamentos = apartamentos;
-    }
-    
-    public void novo()
-    {
-        
-    }
-    
-    public void adiciona(Apartamento apartamento)
-    {
+    public void adiciona(Apartamento apartamento) {
         System.out.println("\nadicionando...\n");
-        if(apartamento.getId() == 0)
-        {
+        if (apartamento.getId() == 0) {
             ApartamentoDAO.create(apartamento);
-        }
-        else
-        {
+        } else {
             ApartamentoDAO.update(apartamento);
         }
         getResult().forwardTo(this).apartamentos();
     }
-    
-    public List<Apartamento> apartamentos()
-    {
+
+    public List<Apartamento> apartamentos() {
         return ApartamentoDAO.getAll();
     }
-    
-    public void editar(Apartamento apartamento)
-    {
+
+    public void editar(Apartamento apartamento) {
         apartamento = ApartamentoDAO.read(apartamento.getId());
         result.include(apartamento);
     }
-    
-    public void excluir(Apartamento apartamento)
-    {
+
+    public void excluir(Apartamento apartamento) {
         ApartamentoDAO.delete(apartamento.getId());
         getResult().forwardTo(this).apartamentos();
     }
