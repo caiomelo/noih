@@ -11,6 +11,7 @@ import dao.FuncionarioDAO;
 import dao.HospedeDAO;
 import dao.ReservaDAO;
 import java.util.List;
+import model.Apartamento;
 import model.Reserva;
 import util.DateUtil;
 
@@ -45,11 +46,13 @@ public class ReservaController {
         reserva.setDataInicio(DateUtil.getGregorianCalendarDate(dataInicio));
         reserva.setDataFim(DateUtil.getGregorianCalendarDate(dataFim));
 
-        System.out.println("\nadicionando...\n");
-        if (reserva.getId() == 0) {
-            ReservaDAO.create(reserva);
-        } else {
-            ReservaDAO.update(reserva);
+        if (DateUtil.isValidTimeGap(dataInicio, dataFim)) {
+            System.out.println("\nadicionando...\n");
+            if (reserva.getId() == 0) {
+                ReservaDAO.create(reserva);
+            } else {
+                ReservaDAO.update(reserva);
+            }
         }
         getResult().forwardTo(this).reservas();
     }
@@ -69,31 +72,32 @@ public class ReservaController {
     }
 
     public void apartamentoHospedeFuncionario(long reservaId, String dataInicio, String dataFim) {
-        //construir lista de apartamentos que nao estao livres
-        // verificar reserva por reserva
-        // como pegar apartamentos que nao estao reservados entre as datas? pega os que estao e subtrai do todo?
         result.include("dataInicio", dataInicio);
         result.include("dataFim", dataFim);
         result.include("hospedes", HospedeDAO.getAll());
-        result.include("apartamentos", ApartamentoDAO.getAll());
+        List<Apartamento> apartamentos = Util.getVacant(reservaId, ReservaDAO.getAll(), ApartamentoDAO.getAll(), dataInicio, dataFim);
+        result.include("apartamentos", apartamentos);
         result.include("funcionarios", FuncionarioDAO.getAll());
         result.include("reservaId", reservaId);
     }
 
     public void apartamento(long reservaId, String dataInicio, String dataFim, long funcionarioId, long hospedeId) {
-        //construir lista de apartamentos que nao estao livres
-        // verificar reserva por reserva
-        // como pegar apartamentos que nao estao reservados entre as datas? pega os que estao e subtrai do todo?
         result.include("dataInicio", dataInicio);
         result.include("dataFim", dataFim);
         result.include("hospedeId", hospedeId);
         result.include("funcionarioId", funcionarioId);
-        result.include("apartamentos", ApartamentoDAO.getAll());
+        List<Apartamento> apartamentos = Util.getVacant(reservaId, ReservaDAO.getAll(), ApartamentoDAO.getAll(), dataInicio, dataFim);
+        result.include("apartamentos", apartamentos);
         result.include("reservaId", reservaId);
     }
 
     public void concluir(long reservaId, long apartamentoId, long hospedeId, long funcionarioId, String dataInicio, String dataFim) {
         Reserva reserva = ReservaDAO.read(reservaId);
+
+        if (reserva == null) {
+            reserva = new Reserva();
+            reserva.setId(reservaId);
+        }
         reserva.setFuncionario(FuncionarioDAO.read(funcionarioId));
         reserva.setApartamento(ApartamentoDAO.read(apartamentoId));
         reserva.setHospede(HospedeDAO.read(hospedeId));
