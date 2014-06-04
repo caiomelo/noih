@@ -13,5 +13,6 @@
     </head>
     <body>
         <h4 align="center">Apartamento ${apartamento.numero}, no ${apartamento.andar}º andar está ocupado para esta data!</h4>
+        <p align="center"><a href="javascript:history.back()">Voltar</a></p>
     </body>
 </html>
