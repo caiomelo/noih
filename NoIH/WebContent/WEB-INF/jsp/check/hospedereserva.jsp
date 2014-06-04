@@ -16,22 +16,22 @@
     </head>
     <body>
         <form action="apartamento" method="post">
-            Hóspede:
-            <select name="hospede.id">
+            <p align="center">Hóspede:</p>
+            <p align="center"><select name="hospede.id">
                 <c:forEach var="hospede" items="${hospedes}">
                     <option value="${hospede.id}">${hospede.nome}</option>
                 </c:forEach>
-            </select>
-            <br/>
-            Reserva em nome de:
-            <select name="reserva.id">
+            </select></p>
+            
+            <p align="center">Reserva em nome de:</p>
+            <p align="center"><select name="reserva.id">
                 <option value="0">Sem reserva</option>
                 <c:forEach var="reserva" items="${reservas}">
                     <option value="${reserva.id}">${reserva.hospede.nome}</option>
                 </c:forEach>
-            </select>
-            <br/>
-            <input type="submit">
+            </select></p>
+            
+            <p align="center"><input type="submit"></p>
         </form>
     </body>
 </html>

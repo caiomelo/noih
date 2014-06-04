@@ -14,5 +14,6 @@
     <body>
         <p align="center">Hospede ${hospede.nome} registrado no apartamento ${apartamento.numero} no 
         ${apartamento.andar}º andar!</p>
+        <p align="center"><a href="/NoIH">Início</a></p>
     </body>
 </html>
