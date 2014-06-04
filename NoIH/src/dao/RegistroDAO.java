@@ -19,14 +19,18 @@ public class RegistroDAO {
 		Connection connection = Connector.connect(Connector.DATABASE_URL);
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO registro " +
-			"(checkin, checkout, reserva, hospede, apartamento, funcionario) " +
-			"VALUES (?, ?, ?, ?, ?, ?);");
+			"(checkin, checkout, reserva, hospede, apartamento, funcionario, status, total_conta) " +
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
 			preparedStatement.setDate(1, new java.sql.Date(registro.getCheckin().getTime().getTime()));
 			preparedStatement.setDate(2, new java.sql.Date(registro.getCheckout().getTime().getTime()));
-			preparedStatement.setLong(3, registro.getReserva().getId());
+			preparedStatement.setLong(3, 
+                                (registro.getReserva() != null) ? registro.getReserva().getId() : 0);                        
 			preparedStatement.setLong(4, registro.getHospede().getId());
 			preparedStatement.setLong(5, registro.getApartamento().getId());
-			preparedStatement.setLong(6, registro.getFuncionario().getId());
+			preparedStatement.setLong(6, 
+                                (registro.getFuncionario() != null) ? registro.getFuncionario().getId() : 0);
+			preparedStatement.setString(7, registro.getStatus());
+			preparedStatement.setDouble(8, registro.getTotalConta());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -51,7 +55,6 @@ public class RegistroDAO {
 			if(resultSet.next())
 			{
 				registro = new Registro();
-				registro.setId(resultSet.getLong("id"));
 
 				java.util.Date checkin = resultSet.getDate("checkin");
 				java.util.GregorianCalendar checkinCalendar = new java.util.GregorianCalendar();
@@ -68,6 +71,8 @@ public class RegistroDAO {
 				registro.setHospede(HospedeDAO.read(resultSet.getLong("hospede")));
 				registro.setApartamento(ApartamentoDAO.read(resultSet.getLong("apartamento")));
 				registro.setFuncionario(FuncionarioDAO.read(resultSet.getLong("funcionario")));
+				registro.setStatus(resultSet.getString("status"));
+				registro.setTotalConta(resultSet.getDouble("total_conta"));
 				registro.setId(id);
 			}
 
@@ -87,22 +92,26 @@ public class RegistroDAO {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 			"UPDATE registro SET " +
-			"id = ?, " +
 			"checkin = ?, " +
 			"checkout = ?, " +
 			"reserva = ?, " +
 			"hospede = ?, " +
 			"apartamento = ?, " +
-			"funcionario = ? " +
+			"funcionario = ?, " +
+			"status = ?, " +
+			"total_conta = ? " +
  			"WHERE id = ?;");
-			preparedStatement.setLong(1, registro.getId());
-			preparedStatement.setDate(2, new java.sql.Date(registro.getCheckin().getTime().getTime()));
-			preparedStatement.setDate(3, new java.sql.Date(registro.getCheckout().getTime().getTime()));
-			preparedStatement.setLong(4, registro.getReserva().getId());
-			preparedStatement.setLong(5, registro.getHospede().getId());
-			preparedStatement.setLong(6, registro.getApartamento().getId());
-			preparedStatement.setLong(7, registro.getFuncionario().getId());
-			preparedStatement.setLong(8, registro.getId());
+			preparedStatement.setDate(1, new java.sql.Date(registro.getCheckin().getTime().getTime()));
+			preparedStatement.setDate(2, new java.sql.Date(registro.getCheckout().getTime().getTime()));
+			preparedStatement.setLong(3, 
+                                (registro.getReserva() != null) ? registro.getReserva().getId() : 0);
+			preparedStatement.setLong(4, registro.getHospede().getId());
+			preparedStatement.setLong(5, registro.getApartamento().getId());
+			preparedStatement.setLong(6, 
+                                (registro.getFuncionario() != null) ? registro.getFuncionario().getId() : 0);
+			preparedStatement.setString(7, registro.getStatus());
+			preparedStatement.setDouble(8, registro.getTotalConta());
+			preparedStatement.setLong(9, registro.getId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -144,7 +153,6 @@ public class RegistroDAO {
 			{
 				Registro registro = new Registro();
 
-				registro.setId(resultSet.getLong("id"));
 
 				java.util.Date checkin = resultSet.getDate("checkin");
 				java.util.GregorianCalendar checkinCalendar = new java.util.GregorianCalendar();
@@ -161,6 +169,54 @@ public class RegistroDAO {
 				registro.setHospede(HospedeDAO.read(resultSet.getLong("hospede")));
 				registro.setApartamento(ApartamentoDAO.read(resultSet.getLong("apartamento")));
 				registro.setFuncionario(FuncionarioDAO.read(resultSet.getLong("funcionario")));
+				registro.setStatus(resultSet.getString("status"));
+				registro.setTotalConta(resultSet.getDouble("total_conta"));
+				registro.setId(resultSet.getLong("id"));
+				registros.add(registro);
+			}
+
+			preparedStatement.close();
+			connection.close();
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return registros;
+	}
+        
+        public static ArrayList<Registro> getAllOpen()
+	{
+		ArrayList<Registro> registros = new ArrayList<Registro>();
+		Connection connection = Connector.connect(Connector.DATABASE_URL);
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement(
+                                "SELECT * FROM registro WHERE status = ?;");
+                        preparedStatement.setString(1, Registro.ABERTO);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next())
+			{
+				Registro registro = new Registro();
+
+
+				java.util.Date checkin = resultSet.getDate("checkin");
+				java.util.GregorianCalendar checkinCalendar = new java.util.GregorianCalendar();
+				checkinCalendar.setTime(checkin);
+				registro.setCheckin(checkinCalendar);
+
+
+				java.util.Date checkout = resultSet.getDate("checkout");
+				java.util.GregorianCalendar checkoutCalendar = new java.util.GregorianCalendar();
+				checkoutCalendar.setTime(checkout);
+				registro.setCheckout(checkoutCalendar);
+
+				registro.setReserva(ReservaDAO.read(resultSet.getLong("reserva")));
+				registro.setHospede(HospedeDAO.read(resultSet.getLong("hospede")));
+				registro.setApartamento(ApartamentoDAO.read(resultSet.getLong("apartamento")));
+				registro.setFuncionario(FuncionarioDAO.read(resultSet.getLong("funcionario")));
+				registro.setStatus(resultSet.getString("status"));
+				registro.setTotalConta(resultSet.getDouble("total_conta"));
 				registro.setId(resultSet.getLong("id"));
 				registros.add(registro);
 			}

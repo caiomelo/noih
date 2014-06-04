@@ -149,4 +149,40 @@ public class DespesaDAO {
 		}
 		return despesas;
 	}
+
+	public static ArrayList<Despesa> getAllFromRegistro(long registroId)
+	{
+		ArrayList<Despesa> despesas = new ArrayList<Despesa>();
+		Connection connection = Connector.connect(Connector.DATABASE_URL);
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement(
+                                "SELECT * FROM despesa WHERE registro = ?;");
+                        preparedStatement.setLong(1, registroId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next())
+			{
+				Despesa despesa = new Despesa();
+
+				java.util.Date data_hora = resultSet.getDate("data_hora");
+				java.util.GregorianCalendar data_horaCalendar = new java.util.GregorianCalendar();
+				data_horaCalendar.setTime(data_hora);
+				despesa.setDataHora(data_horaCalendar);
+
+				despesa.setRegistro(RegistroDAO.read(resultSet.getLong("registro")));
+				despesa.setServico(ServicoDAO.read(resultSet.getLong("servico")));
+				despesa.setValor(resultSet.getDouble("valor"));
+				despesa.setId(resultSet.getLong("id"));
+				despesas.add(despesa);
+			}
+
+			preparedStatement.close();
+			connection.close();
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return despesas;
+	}
 }

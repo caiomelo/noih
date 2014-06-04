@@ -6,11 +6,9 @@ package controller;
 
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
-import dao.ApartamentoDAO;
-import dao.HospedeDAO;
-import dao.RegistroDAO;
-import dao.ReservaDAO;
+import dao.*;
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import model.*;
@@ -45,7 +43,9 @@ public class CheckController {
         }
         else
         {
-            date = new GregorianCalendar().getTime();
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            date = calendar.getTime();
         }
         
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -69,9 +69,29 @@ public class CheckController {
         registro.setHospede(hospede);
         registro.setCheckin(new GregorianCalendar());
         registro.setFuncionario(new Funcionario());
+        registro.setStatus(Registro.ABERTO);
         RegistroDAO.create(registro);
         result.include("apartamento", apartamento);
         result.include("hospede", hospede);
     }
+
+    public void checkout()
+    {
+        result.include("registros", RegistroDAO.getAllOpen());
+    }
     
+    public void despesas(Registro registro)
+    {
+        registro = RegistroDAO.read(registro.getId());
+        result.include("despesas", DespesaDAO.getAllFromRegistro(registro.getId()));
+        result.include("registro", registro);
+    }
+    
+    public void registroFechado(Registro registro)
+    {
+        registro = RegistroDAO.read(registro.getId());
+        registro.setStatus(Registro.FECHADO);
+        RegistroDAO.update(registro);
+        result.include("registro", registro);
+    }
 }
