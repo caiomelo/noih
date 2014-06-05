@@ -14,6 +14,7 @@ public class Servico {
     private String nome;
     private String tipo;
     private double valor;
+    private double totalMesAnterior;
 
     public long getId() {
         return id;
@@ -45,6 +46,14 @@ public class Servico {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public double getTotalMesAnterior() {
+        return totalMesAnterior;
+    }
+
+    public void setTotalMesAnterior(double totalMesAnterior) {
+        this.totalMesAnterior = totalMesAnterior;
     }
 
     @Override

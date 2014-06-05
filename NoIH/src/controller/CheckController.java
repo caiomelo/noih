@@ -35,6 +35,7 @@ public class CheckController {
     
     public void apartamento(Hospede hospede, Reserva reserva)
     {
+        reserva = ReservaDAO.read(reserva.getId());
         result.include("reserva", reserva);
         result.include("hospede", hospede);
         

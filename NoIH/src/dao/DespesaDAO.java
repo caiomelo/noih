@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import model.Despesa;
 
 /**
@@ -174,6 +176,46 @@ public class DespesaDAO {
 				despesa.setValor(resultSet.getDouble("valor"));
 				despesa.setId(resultSet.getLong("id"));
 				despesas.add(despesa);
+			}
+
+			preparedStatement.close();
+			connection.close();
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return despesas;
+	}
+
+	public static ArrayList<Despesa> getAllFromServicoInLastMonth(long servicoId)
+	{
+		ArrayList<Despesa> despesas = new ArrayList<Despesa>();
+		Connection connection = Connector.connect(Connector.DATABASE_URL);
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement(
+                                "SELECT * FROM despesa WHERE servico = ?;");
+                        preparedStatement.setLong(1, servicoId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next())
+			{
+				Despesa despesa = new Despesa();
+
+				java.util.Date data_hora = resultSet.getDate("data_hora");
+				java.util.GregorianCalendar data_horaCalendar = new java.util.GregorianCalendar();
+				data_horaCalendar.setTime(data_hora);
+				despesa.setDataHora(data_horaCalendar);
+
+                                if(data_horaCalendar.get(Calendar.MONTH) == 
+                                        (new GregorianCalendar().get(Calendar.MONTH) - 1))
+                                {
+                                    despesa.setRegistro(RegistroDAO.read(resultSet.getLong("registro")));
+                                    despesa.setServico(ServicoDAO.read(resultSet.getLong("servico")));
+                                    despesa.setValor(resultSet.getDouble("valor"));
+                                    despesa.setId(resultSet.getLong("id"));
+                                    despesas.add(despesa);
+                                }
 			}
 
 			preparedStatement.close();
