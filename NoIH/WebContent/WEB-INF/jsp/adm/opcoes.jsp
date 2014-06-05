@@ -14,6 +14,7 @@
     <body>
         <p align="center"><a href="ocupacao">Verificar taxa de ocupação por data</a></p>
         <p align="center"><a href="buscaHospede">Buscar hóspede</a></p>
+        <p align="center"><a href="servicos">Serviços que mais faturaram mês passado</a></p>
         <p align="center"><a href="/NoIH">Início</a></p>
     </body>
 </html>
