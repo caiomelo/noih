@@ -6,14 +6,11 @@ package controller;
 
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
-import dao.ApartamentoDAO;
-import dao.RegistroDAO;
-import dao.ReservaDAO;
+import dao.*;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import model.Apartamento;
-import model.Registro;
-import model.Reserva;
+import model.*;
 import util.DateUtil;
 
 /**
@@ -85,5 +82,43 @@ public class AdmController {
             }
         }
         result.include("valor", valor);
+    }
+    
+    public void servicos()
+    {
+        ArrayList<Servico> servicos = ServicoDAO.getAll();
+        for(Servico s : servicos)
+        {
+            ArrayList<Despesa> despesas = DespesaDAO.getAllFromServicoInLastMonth(s.getId());
+            for(Despesa d : despesas)
+            {
+                s.setTotalMesAnterior(s.getTotalMesAnterior() + d.getValor());
+            }
+        }
+        
+        Servico[] array = new Servico[servicos.size()];
+        for(int i = 0; i < servicos.size(); i++)
+        {
+            array[i] = servicos.get(i);
+        }
+        result.include("servicos", bubbleSort(array));
+    }
+    
+    private Servico[] bubbleSort(Servico[] servicos)
+    {
+        for(int i = 1; i < servicos.length; i++)
+        {
+            for(int j = 0; j < servicos.length - i; j++)
+            {
+                if(servicos[j].getValor() < servicos[j+1].getValor())
+                {
+                    Servico s = servicos[j];
+                    servicos[j] = servicos[j+1];
+                    servicos[j+1] = s;
+                }
+            }
+        }
+        
+        return servicos;
     }
 }

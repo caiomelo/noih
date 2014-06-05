@@ -40,22 +40,23 @@ public class CheckController {
         result.include("hospede", hospede);
         
         Date date = null;
-        if(reserva.getId() != 0)
+        if(reserva != null && reserva.getId() != 0)
         {
-            date = reserva.getDataFim().getTime();            
+            date = reserva.getDataFim().getTime();
+            ArrayList<Apartamento> apartamentos = new ArrayList<Apartamento>();
+            apartamentos.add(reserva.getApartamento());
+            result.include("apartamentos", apartamentos);
         }
         else
         {
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             date = calendar.getTime();
+            result.include("apartamentos", ApartamentoDAO.getAll());
         }
         
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         result.include("dataFim", df.format(date));
-        result.include("apartamentos", ApartamentoDAO.getAll());
-        System.out.println("reserva.getId(): " + reserva.getId());
-        System.out.println("hospede.getId(): " + hospede.getId());
     }
     
     public void checkin(Hospede hospede, Reserva reserva, Apartamento apartamento)
