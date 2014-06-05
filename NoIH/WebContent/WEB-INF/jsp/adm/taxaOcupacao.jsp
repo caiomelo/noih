@@ -13,5 +13,6 @@
     </head>
     <body>
         Em ${data}: ${taxa}
+        <p align="center"><a href="/NoIH">Início</a></p>
     </body>
 </html>

@@ -110,34 +110,4 @@ public class ReservaController {
         result.include("dataFim", dataFim);
         result.include("reserva", reserva);
     }
-
-    public void ocupacao() {
-    }
-
-    public void taxaOcupacao(String data) {
-        GregorianCalendar dataTaxa;
-        List<Apartamento> apartamentos = ApartamentoDAO.getAll();
-        float apes = apartamentos.size();
-
-        if (data == null) {
-            dataTaxa = new GregorianCalendar();
-            data = dataTaxa.getTime().toString();
-        } else {
-            dataTaxa = DateUtil.getGregorianCalendarDate(data);
-        }
-
-        List<Reserva> reservas = ReservaDAO.getAll();
-
-        float res = 0;
-        for (Reserva reserva : reservas) {
-            if (reserva.getDataInicio().before(dataTaxa) && reserva.getDataFim().after(dataTaxa)) {
-                res = res + 1;
-            }
-        }
-
-        float taxa = res / apes;
-
-        result.include("taxa", taxa);
-        result.include("data", data);
-    }
 }

@@ -18,5 +18,6 @@
                 <input type="submit">
             </p>
         </form>
+        <p align="center"><a href="/NoIH">Início</a></p>
     </body>
 </html>

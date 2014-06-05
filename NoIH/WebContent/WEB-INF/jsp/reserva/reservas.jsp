@@ -41,7 +41,6 @@
 </c:forEach>
 </table>
 <p align="center"><a href="novo">Nova reserva</a></p>
-<p align="center"><a href="ocupacao">Verificar taxa de ocupação</a></p>
 <p align="center"><a href="/NoIH">Início</a></p>
 </body>
 </html>
