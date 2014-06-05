@@ -63,7 +63,7 @@ public class DespesaController {
     {
         registro = RegistroDAO.read(registro.getId());
         result.include("registro", registro);
-        result.include("servicos", DespesaDAO.getAllFromRegistro(registro.getId()));
+        result.include("despesas", DespesaDAO.getAllFromRegistro(registro.getId()));
     }
     
     public void estornado(Registro registro, Despesa despesa)
@@ -71,8 +71,9 @@ public class DespesaController {
         registro = RegistroDAO.read(registro.getId());
         despesa = DespesaDAO.read(despesa.getId());
         
-        registro.setTotalConta(registro.getTotalConta() - despesa.getValor());
+        registro.setTotalConta(registro.getTotalConta() - despesa.getServico().getValor());
         DespesaDAO.delete(despesa.getId());
+        RegistroDAO.update(registro);
         
         result.include("registro", registro);
         result.include("despesa", despesa);
