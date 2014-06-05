@@ -10,6 +10,7 @@ import dao.*;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import model.*;
 
@@ -20,6 +21,7 @@ import model.*;
 @Resource
 public class CheckController {
     private Result result;
+    private Apartamento apartamento;
 
     public CheckController(Result result) {
         this.result = result;
@@ -70,9 +72,32 @@ public class CheckController {
         registro.setCheckin(new GregorianCalendar());
         registro.setFuncionario(new Funcionario());
         registro.setStatus(Registro.ABERTO);
-        RegistroDAO.create(registro);
-        result.include("apartamento", apartamento);
-        result.include("hospede", hospede);
+        ArrayList<Registro> registros = RegistroDAO.getAllFromApartamento(apartamento);
+        boolean hasIntersection = false;
+        for(Registro r : registros)
+        {
+            if(hasDateIntersection(registro, r))
+            {
+                hasIntersection = true;
+            }
+        }
+        
+        if(!hasIntersection)
+        {
+            RegistroDAO.create(registro);
+            result.include("apartamento", apartamento);
+            result.include("hospede", hospede);
+        }
+        else
+        {
+            this.apartamento = apartamento;
+            result.forwardTo(this).apartamentoOcupado();
+        }
+    }
+    
+    public Apartamento apartamentoOcupado()
+    {
+        return apartamento;
     }
 
     public void checkout()
@@ -93,5 +118,39 @@ public class CheckController {
         registro.setStatus(Registro.FECHADO);
         RegistroDAO.update(registro);
         result.include("registro", registro);
+    }
+    
+    private boolean hasDateIntersection(Registro registro1, Registro registro2)
+    {
+        boolean hasIntersection = false;
+        if(between(registro1.getCheckin(), registro2.getCheckin(), registro2.getCheckout()))
+        {
+            hasIntersection = true;
+        }
+        if(between(registro1.getCheckout(), registro2.getCheckin(), registro2.getCheckout()))
+        {
+            hasIntersection = true;
+        }
+        
+        if(between(registro2.getCheckin(), registro1.getCheckin(), registro1.getCheckout()))
+        {
+            hasIntersection = true;
+        }
+        if(between(registro2.getCheckout(), registro1.getCheckin(), registro1.getCheckout()))
+        {
+            hasIntersection = true;
+        }
+        
+        return hasIntersection;
+    }
+    
+    private boolean between(GregorianCalendar calendar1, GregorianCalendar calendar2, GregorianCalendar calendar3)
+    {
+        boolean between = false;
+        if(calendar1.after(calendar2) || calendar1.before(calendar3))
+        {
+            between = true;
+        }
+        return between;
     }
 }

@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import model.Registro;
+import model.*;
 
 /**
  *
@@ -193,6 +193,52 @@ public class RegistroDAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(
                                 "SELECT * FROM registro WHERE status = ?;");
                         preparedStatement.setString(1, Registro.ABERTO);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next())
+			{
+				Registro registro = new Registro();
+
+
+				java.util.Date checkin = resultSet.getDate("checkin");
+				java.util.GregorianCalendar checkinCalendar = new java.util.GregorianCalendar();
+				checkinCalendar.setTime(checkin);
+				registro.setCheckin(checkinCalendar);
+
+
+				java.util.Date checkout = resultSet.getDate("checkout");
+				java.util.GregorianCalendar checkoutCalendar = new java.util.GregorianCalendar();
+				checkoutCalendar.setTime(checkout);
+				registro.setCheckout(checkoutCalendar);
+
+				registro.setReserva(ReservaDAO.read(resultSet.getLong("reserva")));
+				registro.setHospede(HospedeDAO.read(resultSet.getLong("hospede")));
+				registro.setApartamento(ApartamentoDAO.read(resultSet.getLong("apartamento")));
+				registro.setFuncionario(FuncionarioDAO.read(resultSet.getLong("funcionario")));
+				registro.setStatus(resultSet.getString("status"));
+				registro.setTotalConta(resultSet.getDouble("total_conta"));
+				registro.setId(resultSet.getLong("id"));
+				registros.add(registro);
+			}
+
+			preparedStatement.close();
+			connection.close();
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return registros;
+	}
+        
+        public static ArrayList<Registro> getAllFromApartamento(Apartamento apartamento)
+	{
+		ArrayList<Registro> registros = new ArrayList<Registro>();
+		Connection connection = Connector.connect(Connector.DATABASE_URL);
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement(
+                                "SELECT * FROM registro WHERE apartamento = ?;");
+                        preparedStatement.setLong(1, apartamento.getId());
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while(resultSet.next())
