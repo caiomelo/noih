@@ -155,8 +155,8 @@ public class Util {
             boolean estaLivre = true;
             for (Reserva reserva : reservas) {
                 if ((reserva.getApartamento().getId() == apartamento.getId()) && (reservaId != reserva.getId())) {
-                    if (((dataI.compareTo(reserva.getDataFim()) < 0) && (dataI.compareTo(reserva.getDataInicio())) >= 0)
-                            || ((dataF.compareTo(reserva.getDataInicio()) > 1) && (dataF.compareTo(reserva.getDataFim()) < 0))) {
+                    if ((dataI.before(reserva.getDataFim()) && dataI.after(reserva.getDataInicio()))
+                            || (dataF.after(reserva.getDataInicio()) && dataF.before(reserva.getDataFim()))) {
                         estaLivre = false;
                     }
                 }

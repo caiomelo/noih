@@ -10,6 +10,7 @@ import dao.ApartamentoDAO;
 import dao.FuncionarioDAO;
 import dao.HospedeDAO;
 import dao.ReservaDAO;
+import java.util.GregorianCalendar;
 import java.util.List;
 import model.Apartamento;
 import model.Reserva;
@@ -43,11 +44,15 @@ public class ReservaController {
         reserva.setFuncionario(FuncionarioDAO.read(funcId));
         reserva.setApartamento(ApartamentoDAO.read(apeId));
         reserva.setHospede(HospedeDAO.read(hospId));
-        reserva.setDataInicio(DateUtil.getGregorianCalendarDate(dataInicio));
-        reserva.setDataFim(DateUtil.getGregorianCalendarDate(dataFim));
+        GregorianCalendar dataI = DateUtil.getGregorianCalendarDate(dataInicio);
+        GregorianCalendar dataF = DateUtil.getGregorianCalendarDate(dataFim);
 
         if (DateUtil.isValidTimeGap(dataInicio, dataFim)) {
             System.out.println("\nadicionando...\n");
+
+            reserva.setDataInicio(dataI);
+            reserva.setDataFim(dataF);
+
             if (reserva.getId() == 0) {
                 ReservaDAO.create(reserva);
             } else {
@@ -104,5 +109,35 @@ public class ReservaController {
         result.include("dataInicio", dataInicio);
         result.include("dataFim", dataFim);
         result.include("reserva", reserva);
+    }
+
+    public void ocupacao() {
+    }
+
+    public void taxaOcupacao(String data) {
+        GregorianCalendar dataTaxa;
+        List<Apartamento> apartamentos = ApartamentoDAO.getAll();
+        float apes = apartamentos.size();
+
+        if (data == null) {
+            dataTaxa = new GregorianCalendar();
+            data = dataTaxa.getTime().toString();
+        } else {
+            dataTaxa = DateUtil.getGregorianCalendarDate(data);
+        }
+
+        List<Reserva> reservas = ReservaDAO.getAll();
+
+        float res = 0;
+        for (Reserva reserva : reservas) {
+            if (reserva.getDataInicio().before(dataTaxa) && reserva.getDataFim().after(dataTaxa)) {
+                res = res + 1;
+            }
+        }
+
+        float taxa = res / apes;
+
+        result.include("taxa", taxa);
+        result.include("data", data);
     }
 }

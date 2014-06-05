@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : reservas
     Created on : May 14, 2014, 11:39:29 PM
     Author     : Caio
@@ -17,30 +17,31 @@
         <table border="1" align="center">
             <h:column>
                 <h:row>
-                <th>De</th>
+                    <th>De</th>
                 </h:row>
                 <th>Até</th>
                 <th>Hóspede</th>
                 <th>Apartamento</th>
                 <th>Editar</th>
                 <th>Excluir</th>
-             </h:column>
-            </tr>
-            <c:forEach var="reserva" items="${reservaList}">
-                    <td><h:outputText value="${reserva.dataInicio.time}">  
-                 <f:formatDate value="${reserva.dataInicio.time}" pattern="dd/MM/yyyy"/>  
-                </h:outputText>  </td>
-                    <td><h:outputText value="${reserva.dataInicio.time}">  
-                 <f:formatDate value="${reserva.dataFim.time}" pattern="dd/MM/yyyy"/>  
-                </h:outputText></td>
-                    <td>${reserva.hospede.nome}</td>
-                    <td>${reserva.apartamento.numero}</td>
-                    <td><a href="<c:url value="/reserva/editar"/>?reserva.id=${reserva.id}">Editar</a></td>
-                    <td><a href="<c:url value="/reserva/excluir"/>?reserva.id=${reserva.id}">Excluir</a></td>
-                </tr>
-            </c:forEach>
-        </table>
-        <p align="center"><a href="novo">Nova reserva</a></p>
-        <p align="center"><a href="/NoIH">Início</a></p>
-    </body>
+            </h:column>
+        </tr>
+        <c:forEach var="reserva" items="${reservaList}">
+            <td><h:outputText value="${reserva.dataInicio.time}">
+                <f:formatDate value="${reserva.dataInicio.time}" pattern="dd/MM/yyyy"/>
+            </h:outputText>  </td>
+        <td><h:outputText value="${reserva.dataInicio.time}">
+            <f:formatDate value="${reserva.dataFim.time}" pattern="dd/MM/yyyy"/>
+        </h:outputText></td>
+    <td>${reserva.hospede.nome}</td>
+    <td>${reserva.apartamento.numero}</td>
+    <td><a href="<c:url value="/reserva/editar"/>?reserva.id=${reserva.id}">Editar</a></td>
+    <td><a href="<c:url value="/reserva/excluir"/>?reserva.id=${reserva.id}">Excluir</a></td>
+</tr>
+</c:forEach>
+</table>
+<p align="center"><a href="novo">Nova reserva</a></p>
+<p align="center"><a href="ocupacao">Verificar taxa de ocupação</a></p>
+<p align="center"><a href="/NoIH">Início</a></p>
+</body>
 </html>

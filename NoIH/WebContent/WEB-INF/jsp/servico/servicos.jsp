@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : servicos
     Created on : 22/04/2014, 21:26:09
     Author     : RodriguesMoises
@@ -16,7 +16,7 @@
         <table border="1" align="center">
             <tr>
                 <th>Nome</th>
-                <th>Tipo</th>
+                <th>Valor</th>
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
