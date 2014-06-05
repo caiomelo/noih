@@ -17,7 +17,7 @@
         <form action="estornado" method="post">
             <input type="hidden" name="registro.id" value="${registro.id}">
             <p align="center"><select name="despesa.id">
-                <c:forEach var="despesa" items="${despesa}">
+                <c:forEach var="despesa" items="${despesas}">
                     <option value="${despesa.id}">${despesa.servico.nome}</option>
                 </c:forEach>
             </select></p>
