@@ -41,6 +41,7 @@ public class AdmController {
         GregorianCalendar dataTaxa;
         List<Apartamento> apartamentos = ApartamentoDAO.getAll();
         float apes = apartamentos.size();
+        float den = 0;
 
         if (data == null) {
             dataTaxa = new GregorianCalendar();
@@ -49,16 +50,24 @@ public class AdmController {
             dataTaxa = DateUtil.getGregorianCalendarDate(data);
         }
 
-        List<Reserva> reservas = ReservaDAO.getAll();
-
-        float res = 0;
-        for (Reserva reserva : reservas) {
-            if (reserva.getDataInicio().before(dataTaxa) && reserva.getDataFim().after(dataTaxa)) {
-                res = res + 1;
+        if (dataTaxa.before(new GregorianCalendar())) {
+            List<Registro> registros = RegistroDAO.getAll();
+            for (Registro registro : registros) {
+                if ((Registro.FECHADO.equalsIgnoreCase(registro.getStatus()) && registro.getCheckin().before(dataTaxa) && registro.getCheckout().after(dataTaxa))
+                        || (Registro.ABERTO.equalsIgnoreCase(registro.getStatus()) && registro.getCheckin().before(dataTaxa))) {
+                    den = den + 1;
+                }
+            }
+        } else {
+            List<Reserva> reservas = ReservaDAO.getAll();
+            for (Reserva reserva : reservas) {
+                if (reserva.getDataInicio().before(dataTaxa) && reserva.getDataFim().after(dataTaxa)) {
+                    den = den + 1;
+                }
             }
         }
 
-        float taxa = res / apes;
+        float taxa = den / apes;
 
         result.include("taxa", taxa);
         result.include("data", data);
@@ -83,42 +92,34 @@ public class AdmController {
         }
         result.include("valor", valor);
     }
-    
-    public void servicos()
-    {
+
+    public void servicos() {
         ArrayList<Servico> servicos = ServicoDAO.getAll();
-        for(Servico s : servicos)
-        {
+        for (Servico s : servicos) {
             ArrayList<Despesa> despesas = DespesaDAO.getAllFromServicoInLastMonth(s.getId());
-            for(Despesa d : despesas)
-            {
+            for (Despesa d : despesas) {
                 s.setTotalMesAnterior(s.getTotalMesAnterior() + d.getValor());
             }
         }
-        
+
         Servico[] array = new Servico[servicos.size()];
-        for(int i = 0; i < servicos.size(); i++)
-        {
+        for (int i = 0; i < servicos.size(); i++) {
             array[i] = servicos.get(i);
         }
         result.include("servicos", bubbleSort(array));
     }
-    
-    private Servico[] bubbleSort(Servico[] servicos)
-    {
-        for(int i = 1; i < servicos.length; i++)
-        {
-            for(int j = 0; j < servicos.length - i; j++)
-            {
-                if(servicos[j].getValor() < servicos[j+1].getValor())
-                {
+
+    private Servico[] bubbleSort(Servico[] servicos) {
+        for (int i = 1; i < servicos.length; i++) {
+            for (int j = 0; j < servicos.length - i; j++) {
+                if (servicos[j].getValor() < servicos[j + 1].getValor()) {
                     Servico s = servicos[j];
-                    servicos[j] = servicos[j+1];
-                    servicos[j+1] = s;
+                    servicos[j] = servicos[j + 1];
+                    servicos[j + 1] = s;
                 }
             }
         }
-        
+
         return servicos;
     }
 }
