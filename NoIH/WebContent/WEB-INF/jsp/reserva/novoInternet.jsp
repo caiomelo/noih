@@ -1,5 +1,5 @@
 <%--
-    Document   : novo
+    Document   : novoInternet
     Created on : May 14, 2014, 11:39:35 PM
     Author     : Caio
 --%>
@@ -17,10 +17,12 @@
                 De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
                 Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
                 <input type="hidden" name="reserva.id" value="${reserva.id}">
-                <input type="hidden" name="editar" value="0">
-                <input type="hidden" name="internet" value="0">
+                <input type="hidden" name="reserva.funcionario.id" value="${funcionario.id}">
+                <input type="hidden" name="internet" value="${1}">
+                <input type="hidden" name="editar" value="${0}">
                 <input type="submit">
             </p>
         </form>
+        <p align="center"><a href="/NoIH">Início</a></p>
     </body>
 </html>

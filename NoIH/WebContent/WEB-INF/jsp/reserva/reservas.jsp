@@ -40,7 +40,7 @@
 </tr>
 </c:forEach>
 </table>
-<p align="center"><a href="novo">Nova reserva</a></p>
+<p align="center"><a href="novoLocal">Nova reserva</a></p>
 <p align="center"><a href="/NoIH">Início</a></p>
 </body>
 </html>

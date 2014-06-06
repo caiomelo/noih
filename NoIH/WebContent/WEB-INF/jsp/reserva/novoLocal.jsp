@@ -16,7 +16,9 @@
             <p align="center">
                 De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
                 Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
-                <input type="hidden" name="reservaId" value="${reserva.id}">
+                <input type="hidden" name="reserva.id" value="${reserva.id}">
+                <input type="hidden" name="editar" value="0">
+                <input type="hidden" name="internet" value="0">
                 <input type="submit">
             </p>
         </form>

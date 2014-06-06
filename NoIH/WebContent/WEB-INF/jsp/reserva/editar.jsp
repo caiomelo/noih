@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,15 +22,19 @@
         </h:outputText><br>
         Apartamento: ${reserva.apartamento.numero}<br>
         Hóspede: ${reserva.hospede.nome}<br>
-        Funcionário ${reserva.funcionario.nome}<br>
+        <c:if test="${reserva.funcionario.nome ne 'Internet'}">
+            Funcionário: ${reserva.funcionario.nome}
+        </c:if>
 
-        <form action="apartamento" method="post">
+        <form action="apartamentoHospedeFuncionario" method="post">
             <p align="center">
                 De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
                 Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
-                <input type="hidden" name="reservaId" value="${reserva.id}">
-                <input type="hidden" name="hospedeId" value="${reserva.hospede.id}">
-                <input type="hidden" name="funcionarioId" value="${reserva.funcionario.id}">
+                <input type="hidden" name="reserva.id" value="${reserva.id}">
+                <input type="hidden" name="reserva.hospede.id" value="${reserva.hospede.id}">
+                <input type="hidden" name="reserva.funcionario.id" value="${reserva.funcionario.id}">
+                <input type="hidden" name="editar" value="1">
+                <input type="hidden" name="internet" value="0">
                 <input type="submit">
             </p>
         </form>

@@ -12,127 +12,111 @@ import model.Hospede;
 /**
  *
  * @author RodriguesMoises
-*/
+ */
 public class HospedeDAO {
-	public static void create(Hospede hospede)
-	{
-		Connection connection = Connector.connect(Connector.DATABASE_URL);
-		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO hospede " +
-			"(nome, telefone, email) " +
-			"VALUES (?, ?, ?);");
-			preparedStatement.setString(1, hospede.getNome());
-			preparedStatement.setString(2, hospede.getTelefone());
-			preparedStatement.setString(3, hospede.getEmail());
 
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connection.close();
-			}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
-	}
+    public static void create(Hospede hospede) {
+        Connection connection = Connector.connect(Connector.DATABASE_URL);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO hospede "
+                    + "(nome, telefone, email) "
+                    + "VALUES (?, ?, ?);");
+            preparedStatement.setString(1, hospede.getNome());
+            preparedStatement.setString(2, hospede.getTelefone());
+            preparedStatement.setString(3, hospede.getEmail());
 
-	public static Hospede read(long id)
-	{
-		Hospede hospede = null;
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-		Connection connection = Connector.connect(Connector.DATABASE_URL);
-		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM hospede WHERE id = ?;");
-			preparedStatement.setLong(1, id);
-			ResultSet resultSet = preparedStatement.executeQuery();
+    public static Hospede read(long id) {
+        Hospede hospede = null;
 
-			if(resultSet.next())
-			{
-				hospede = new Hospede();
-				hospede.setNome(resultSet.getString("nome"));
-				hospede.setTelefone(resultSet.getString("telefone"));
-				hospede.setEmail(resultSet.getString("email"));
-				hospede.setId(id);
-			}
+        Connection connection = Connector.connect(Connector.DATABASE_URL);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM hospede WHERE id = ?;");
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-			preparedStatement.close();
-			connection.close();
-		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
-		return hospede;
-	}
+            if (resultSet.next()) {
+                hospede = new Hospede();
+                hospede.setNome(resultSet.getString("nome"));
+                hospede.setTelefone(resultSet.getString("telefone"));
+                hospede.setEmail(resultSet.getString("email"));
+                hospede.setId(id);
+            }
 
-	public static void update(Hospede hospede)
-	{
-		Connection connection = Connector.connect(Connector.DATABASE_URL);
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(
-			"UPDATE hospede SET " +
-			"nome = ?, " +
-			"telefone = ?, " +
-			"email = ? " +
- 			"WHERE id = ?;");
-			preparedStatement.setString(1, hospede.getNome());
-			preparedStatement.setString(2, hospede.getTelefone());
-			preparedStatement.setString(3, hospede.getEmail());
-			preparedStatement.setLong(4, hospede.getId());
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return hospede;
+    }
 
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connection.close();
-			}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
-	}
+    public static void update(Hospede hospede) {
+        Connection connection = Connector.connect(Connector.DATABASE_URL);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE hospede SET "
+                    + "nome = ?, "
+                    + "telefone = ?, "
+                    + "email = ? "
+                    + "WHERE id = ?;");
+            preparedStatement.setString(1, hospede.getNome());
+            preparedStatement.setString(2, hospede.getTelefone());
+            preparedStatement.setString(3, hospede.getEmail());
+            preparedStatement.setLong(4, hospede.getId());
 
-	public static void delete(long id)
-	{
-		Connection connection = Connector.connect(Connector.DATABASE_URL);
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(
-			"DELETE FROM hospede WHERE id = ?;");
-			preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connection.close();
-			}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
-	}
+    public static void delete(long id) {
+        Connection connection = Connector.connect(Connector.DATABASE_URL);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM hospede WHERE id = ?;");
+            preparedStatement.setLong(1, id);
 
-	public static ArrayList<Hospede> getAll()
-	{
-		ArrayList<Hospede> hospedes = new ArrayList<Hospede>();
-		Connection connection = Connector.connect(Connector.DATABASE_URL);
-		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM hospede;");
-			ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-			while(resultSet.next())
-			{
-				Hospede hospede = new Hospede();
+    public static ArrayList<Hospede> getAll() {
+        ArrayList<Hospede> hospedes = new ArrayList<Hospede>();
+        Connection connection = Connector.connect(Connector.DATABASE_URL);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM hospede ORDER BY hospede.nome;");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-				hospede.setNome(resultSet.getString("nome"));
-				hospede.setTelefone(resultSet.getString("telefone"));
-				hospede.setEmail(resultSet.getString("email"));
-				hospede.setId(resultSet.getLong("id"));
-				hospedes.add(hospede);
-			}
+            while (resultSet.next()) {
+                Hospede hospede = new Hospede();
 
-			preparedStatement.close();
-			connection.close();
-		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
-		return hospedes;
-	}
+                hospede.setNome(resultSet.getString("nome"));
+                hospede.setTelefone(resultSet.getString("telefone"));
+                hospede.setEmail(resultSet.getString("email"));
+                hospede.setId(resultSet.getLong("id"));
+                hospedes.add(hospede);
+            }
+
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return hospedes;
+    }
 }

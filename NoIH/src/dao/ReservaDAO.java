@@ -117,7 +117,7 @@ public class ReservaDAO {
         ArrayList<Reserva> reservas = new ArrayList<Reserva>();
         Connection connection = Connector.connect(Connector.DATABASE_URL);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM reserva;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM reserva ORDER BY reserva.data_inicio;");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

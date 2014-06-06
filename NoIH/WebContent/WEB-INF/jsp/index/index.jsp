@@ -12,6 +12,7 @@
         <p align="center"><a href="check/checkout">Check out</a></p>
         <p align="center"><a href="apartamento/apartamentos">Apartamentos</a></p>
         <p align="center"><a href="reserva/reservas">Reservas</a></p>
+        <p align="center"><a href="reserva/novoInternet">Fazer reserva pela Internet</a></p>
         <p align="center"><a href="despesa/despesas">Despesas</a></p>
         <p align="center"><a href="adm/opcoes">Administração</a></p>
     </body>

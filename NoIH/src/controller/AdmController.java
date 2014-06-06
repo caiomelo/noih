@@ -43,7 +43,7 @@ public class AdmController {
         float apes = apartamentos.size();
         float den = 0;
 
-        if (data == null) {
+        if (data.equalsIgnoreCase("")) {
             dataTaxa = new GregorianCalendar();
             data = dataTaxa.getTime().toString();
         } else {

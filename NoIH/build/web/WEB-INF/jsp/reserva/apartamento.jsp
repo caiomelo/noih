@@ -18,13 +18,13 @@
         Até: ${dataFim}<br>
         <br>
         <form action="concluir" method="post">
-            <input type="hidden" name="reservaId" value="${reservaId}">
+            <input type="hidden" name="reserva.id" value="${reserva.id}">
             <input type="hidden" name="dataInicio" value="${dataInicio}">
             <input type="hidden" name="dataFim" value="${dataFim}">
-            <input type="hidden" name="hospedeId" value="${hospedeId}">
-            <input type="hidden" name="funcionarioId" value="${funcionarioId}">
+            <input type="hidden" name="reserva.hospede.id" value="${reserva.hospede.id}">
+            <input type="hidden" name="reserva.funcionario.id" value="${reserva.funcionario.id}">
             Apartamento:
-            <select name="apartamentoId">
+            <select name="reserva.apartamento.id">
                 <c:forEach var="apartamento" items="${apartamentos}">
                     <option value="${apartamento.id}">${apartamento.numero}</option>
                 </c:forEach>

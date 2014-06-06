@@ -13,6 +13,7 @@ import dao.ReservaDAO;
 import java.util.GregorianCalendar;
 import java.util.List;
 import model.Apartamento;
+import model.Funcionario;
 import model.Reserva;
 import util.DateUtil;
 
@@ -24,6 +25,7 @@ import util.DateUtil;
 public class ReservaController {
 
     private Result result;
+    private static final String INTERNET = "Internet";
 
     public ReservaController(Result result) {
         this.result = result;
@@ -40,10 +42,10 @@ public class ReservaController {
     public void novo() {
     }
 
-    public void adiciona(Reserva reserva, long apeId, long funcId, long hospId, String dataInicio, String dataFim) {
-        reserva.setFuncionario(FuncionarioDAO.read(funcId));
-        reserva.setApartamento(ApartamentoDAO.read(apeId));
-        reserva.setHospede(HospedeDAO.read(hospId));
+    public void adiciona(Reserva reserva, String dataInicio, String dataFim) {
+        reserva.setFuncionario(FuncionarioDAO.read(reserva.getFuncionario().getId()));
+        reserva.setApartamento(ApartamentoDAO.read(reserva.getApartamento().getId()));
+        reserva.setHospede(HospedeDAO.read(reserva.getHospede().getId()));
         GregorianCalendar dataI = DateUtil.getGregorianCalendarDate(dataInicio);
         GregorianCalendar dataF = DateUtil.getGregorianCalendarDate(dataFim);
 
@@ -68,7 +70,7 @@ public class ReservaController {
 
     public void editar(Reserva reserva) {
         reserva = ReservaDAO.read(reserva.getId());
-        result.include(reserva);
+        result.include("reserva", reserva);
     }
 
     public void excluir(Reserva reserva) {
@@ -76,38 +78,41 @@ public class ReservaController {
         getResult().forwardTo(this).reservas();
     }
 
-    public void apartamentoHospedeFuncionario(long reservaId, String dataInicio, String dataFim) {
+    public void apartamentoHospedeFuncionario(Reserva reserva, String dataInicio, String dataFim, int editar, int internet) {
         result.include("dataInicio", dataInicio);
         result.include("dataFim", dataFim);
         result.include("hospedes", HospedeDAO.getAll());
-        List<Apartamento> apartamentos = Util.getVacant(reservaId, ReservaDAO.getAll(), ApartamentoDAO.getAll(), dataInicio, dataFim);
+        List<Apartamento> apartamentos = Util.getVacant(reserva.getId(), ReservaDAO.getAll(), ApartamentoDAO.getAll(), dataInicio, dataFim);
         result.include("apartamentos", apartamentos);
         result.include("funcionarios", FuncionarioDAO.getAll());
-        result.include("reservaId", reservaId);
+        result.include("reserva", reserva);
+        result.include("internet", internet);
+        result.include("editar", editar);
     }
 
-    public void apartamento(long reservaId, String dataInicio, String dataFim, long funcionarioId, long hospedeId) {
-        result.include("dataInicio", dataInicio);
-        result.include("dataFim", dataFim);
-        result.include("hospedeId", hospedeId);
-        result.include("funcionarioId", funcionarioId);
-        List<Apartamento> apartamentos = Util.getVacant(reservaId, ReservaDAO.getAll(), ApartamentoDAO.getAll(), dataInicio, dataFim);
-        result.include("apartamentos", apartamentos);
-        result.include("reservaId", reservaId);
-    }
-
-    public void concluir(long reservaId, long apartamentoId, long hospedeId, long funcionarioId, String dataInicio, String dataFim) {
-        Reserva reserva = ReservaDAO.read(reservaId);
-
-        if (reserva == null) {
-            reserva = new Reserva();
-            reserva.setId(reservaId);
+    public void concluir(Reserva reserva, String dataInicio, String dataFim) {
+        if (reserva.getId() > 0) {
+            reserva = ReservaDAO.read(reserva.getId());
         }
-        reserva.setFuncionario(FuncionarioDAO.read(funcionarioId));
-        reserva.setApartamento(ApartamentoDAO.read(apartamentoId));
-        reserva.setHospede(HospedeDAO.read(hospedeId));
+
+        reserva.setFuncionario(FuncionarioDAO.read(reserva.getFuncionario().getId()));
+        reserva.setApartamento(ApartamentoDAO.read(reserva.getApartamento().getId()));
+        reserva.setHospede(HospedeDAO.read(reserva.getHospede().getId()));
         result.include("dataInicio", dataInicio);
         result.include("dataFim", dataFim);
         result.include("reserva", reserva);
+    }
+
+    public void novoInternet() {
+        List<Funcionario> funcionarios = FuncionarioDAO.getAll();
+        Funcionario funcionario = null;
+
+        for (Funcionario eachFuncionario : funcionarios) {
+            if (INTERNET.equalsIgnoreCase(eachFuncionario.getNome())) {
+                funcionario = eachFuncionario;
+            }
+        }
+
+        result.include("funcionario", funcionario);
     }
 }
