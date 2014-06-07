@@ -11,6 +11,34 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+        <script>
+            $(function() {
+                $("#de").datepicker({
+                    minDate: 0,
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+                    onClose: function(selectedDate) {
+                        var minDate = new Date(Date.parse(selectedDate));
+                        minDate.setDate(date.getDate())
+                        $("#ate").datepicker("option", "minDate", minDate);
+                    }
+                });
+                $("#ate").datepicker({
+                    minDate: +1,
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+                    onClose: function(selectedDate) {
+                        var maxDate = new Date(Date.parse(selectedDate));
+                        maxDate.setDate(maxDate.getDate())
+                        $("#de").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+            });
+        </script>
         <title>Editar reserva</title>
     </head>
     <h:body>
@@ -28,8 +56,8 @@
 
         <form action="apartamentoHospedeFuncionario" method="post">
             <p align="center">
-                De:<input type="text" name="dataInicio" value="${dataInicio}"><br/>
-                Até:<input type="text" name="dataFim" value="${dataFim}"><br/>
+                De:<input type="text" id="de" name="dataInicio"><br/>
+                Até:<input type="text" id="ate" name="dataFim"><br/>
                 <input type="hidden" name="reserva.id" value="${reserva.id}">
                 <input type="hidden" name="reserva.hospede.id" value="${reserva.hospede.id}">
                 <input type="hidden" name="reserva.funcionario.id" value="${reserva.funcionario.id}">

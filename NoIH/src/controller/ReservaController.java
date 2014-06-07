@@ -39,7 +39,7 @@ public class ReservaController {
         this.result = result;
     }
 
-    public void novo() {
+    public void novoLocal() {
     }
 
     public void adiciona(Reserva reserva, String dataInicio, String dataFim) {

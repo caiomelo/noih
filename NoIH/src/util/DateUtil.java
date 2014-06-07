@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
  */
 public class DateUtil {
 
-    private static String DATE_REGEX = "\\d{1,2}/\\d{1,2}/\\d{4}";
+    private static String DATE_REGEX = "^\\d{4}-\\d{1,2}-\\d{1,2}$";
     private static int HORAS = 12;
     private static int MINUTOS = 0;
     private static int SEGUNDOS = 0;
@@ -47,10 +47,10 @@ public class DateUtil {
     private static int[] getDate(String date) {
         int[] result = {0, 0, 0};
         if (date.matches(DATE_REGEX)) {
-            String[] datePieces = date.split("/");
-            int dia = Integer.parseInt(datePieces[0]);
+            String[] datePieces = date.split("-");
+            int ano = Integer.parseInt(datePieces[0]);
             int mes = Integer.parseInt(datePieces[1]);
-            int ano = Integer.parseInt(datePieces[2]);
+            int dia = Integer.parseInt(datePieces[2]);
             result[0] = dia;
             result[1] = mes;
             result[2] = ano;

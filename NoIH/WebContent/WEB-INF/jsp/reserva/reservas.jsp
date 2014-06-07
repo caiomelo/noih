@@ -28,10 +28,10 @@
         </tr>
         <c:forEach var="reserva" items="${reservaList}">
             <td><h:outputText value="${reserva.dataInicio.time}">
-                <f:formatDate value="${reserva.dataInicio.time}" pattern="dd/MM/yyyy"/>
+                <f:formatDate value="${reserva.dataInicio.time}" pattern="yyyy-MM-dd"/>
             </h:outputText>  </td>
         <td><h:outputText value="${reserva.dataInicio.time}">
-            <f:formatDate value="${reserva.dataFim.time}" pattern="dd/MM/yyyy"/>
+            <f:formatDate value="${reserva.dataFim.time}" pattern="yyyy-MM-dd"/>
         </h:outputText></td>
     <td>${reserva.hospede.nome}</td>
     <td>${reserva.apartamento.numero}</td>
